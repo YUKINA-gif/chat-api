@@ -8,16 +8,12 @@ use App\Models\Chat;
 class ChatController extends Controller
 {
     /**
-     * [GET]
+     * [GET]全データ取得
      * 
-     * 店舗全データを取得する
+     * 全データを取得する
      * 
      * @access public
-     * @return Response 店舗一覧表示
-     * @var array $stores  店舗全データ
-     * @var array $area  エリア一覧
-     * @var array $geenre  ジャンル一覧
-     * @var array $item  $storesと$areaと$genreを配列に入れる
+     * @return Response 一覧表示
      */
     public function get(Request $request)
     {
@@ -28,15 +24,31 @@ class ChatController extends Controller
         ],200);
     }
 
+    /**
+     * [GET]個別データ取得
+     * 
+     * 個別チャットデータを取得する
+     * 
+     * @access public
+     * @return Response 個別メッセージ表示
+     */
     public function getMessage(Request $request)
     {
-        $data = Chat::where("user_id", $request->user_id)->where("nursery_id",$request->nursery_id)->get("message");
+        $data = Chat::where("user_id", $request->user_id)->where("nursery_id",$request->nursery_id)->get();
 
         return response()->json([
             "data" => $data
         ], 200);
     }
 
+    /**
+     * [POST]メッセージ送信
+     * 
+     * メッセージを送る
+     * 
+     * @access public
+     * @return Response メッセージ送信
+     */
     public function post(Request $request)
     {
         $chat = new Chat;
